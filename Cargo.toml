@@ -1,0 +1,16 @@
+[package]
+name = "trace2pprof"
+version = "0.1.0"
+authors = ["Sam Rijs <srijs@airpost.net>"]
+edition = "2018"
+
+[dependencies]
+addr2line = "0.10.0"
+bytes = "0.4.7"
+flate2 = "1.0.13"
+gumdrop = "0.7.0"
+string-interner = "0.7.1"
+prost = "0.5.0"
+
+[build-dependencies]
+prost-build = { version = "0.5.0" }
