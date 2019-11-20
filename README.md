@@ -2,6 +2,10 @@
 
 ## Usage
 
+### Step 0: Compile program
+
+Compile your program while passing the `-g` flag to `CC`, in order to emit debug information. Then create the ROM as usual.
+
 ### Step 1: Generate MAME trace
 
 At the point where you would like to start profiling, run the following command in the MAME debugger:
