@@ -32,7 +32,7 @@ cargo install --path .
 
 ### Step 0: Compile program
 
-Compile your program while passing the `-g` flag to `CC`, in order to emit debug information. Then create the ROM as usual.
+Compile your program while passing the `-g` flag to `CC` (and/or `AS`), in order to emit debug information. Then create the ROM as usual.
 
 ### Step 1: Generate MAME trace
 
@@ -59,5 +59,5 @@ trace2pprof game.tr
 Now you can open the profile inspector in your web browser:
 
 ```
-pprof -tools /path/to/cross/binutils/bin -http :8080 test.o profile.pb.gz
+pprof -tools /path/to/cross/binutils/bin -http :8080 main.o profile.pb.gz
 ```
