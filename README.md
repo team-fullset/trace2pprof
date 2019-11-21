@@ -25,7 +25,7 @@ In order to build and use this tool, you need to have:
 Running the following command will build the `trace2pprof` tool and install it on your machine:
 
 ```
-cargo install --path 
+cargo install --path .
 ```
 
 ## Usage
