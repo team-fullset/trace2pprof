@@ -16,10 +16,10 @@ trace game.tr,0,noloop
 
 ### Step 2: Process trace and generate profile
 
-Once you have the trace, you can generate a profile, using the object file that the compiler produced:
+Once you have the trace, you can generate a profile:
 
 ```
-trace2pprof --object-file test.o --trace-file game.tr
+trace2pprof game.tr
 ```
 
 ### Step 3: Inspect profile
@@ -27,5 +27,5 @@ trace2pprof --object-file test.o --trace-file game.tr
 Now you can open the profile inspector in your web browser:
 
 ```
-pprof -http 0.0.0.0:8080 profile.pb.gz
+pprof -tools /path/to/cross/tools/bin -http 0.0.0.0:8080 test.o profile.pb.gz
 ```
