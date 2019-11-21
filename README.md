@@ -27,5 +27,5 @@ trace2pprof game.tr
 Now you can open the profile inspector in your web browser:
 
 ```
-pprof -tools /path/to/cross/tools/bin -http 0.0.0.0:8080 test.o profile.pb.gz
+pprof -tools /path/to/cross/tools/bin -http :8080 test.o profile.pb.gz
 ```
