@@ -349,6 +349,11 @@ version = "0.1.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "sequence_trie"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "serde"
 version = "1.0.102"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -436,6 +441,7 @@ dependencies = [
  "flate2 1.0.13 (registry+https://github.com/rust-lang/crates.io-index)",
  "prost 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "prost-build 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "sequence_trie 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "string-interner 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "structopt 0.3.4 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -542,6 +548,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum redox_syscall 0.1.56 (registry+https://github.com/rust-lang/crates.io-index)" = "2439c63f3f6139d1b57529d16bc3b8bb855230c8efcc5d3a896c8bea7c3b1e84"
 "checksum remove_dir_all 0.5.2 (registry+https://github.com/rust-lang/crates.io-index)" = "4a83fa3702a688b9359eccba92d153ac33fd2e8462f9e0e3fdf155239ea7792e"
 "checksum rustc-demangle 0.1.16 (registry+https://github.com/rust-lang/crates.io-index)" = "4c691c0e608126e00913e33f0ccf3727d5fc84573623b8d65b2df340b5201783"
+"checksum sequence_trie 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)" = "1ee22067b7ccd072eeb64454b9c6e1b33b61cd0d49e895fd48676a184580e0c3"
 "checksum serde 1.0.102 (registry+https://github.com/rust-lang/crates.io-index)" = "0c4b39bd9b0b087684013a792c59e3e07a46a01d2322518d8a1104641a0b1be0"
 "checksum string-interner 0.7.1 (registry+https://github.com/rust-lang/crates.io-index)" = "fd710eadff449a1531351b0e43eb81ea404336fa2f56c777427ab0e32a4cf183"
 "checksum strsim 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8ea5119cdb4c55b55d432abb513a0429384878c15dde60cc77b1c99de1a95a6a"

@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use prost::Message;
 use string_interner::{DefaultStringInterner, Symbol};
 
@@ -7,6 +9,7 @@ mod proto {
 
 pub struct Builder {
     strings: DefaultStringInterner,
+    location_map: HashMap<u64, proto::Location>,
     profile: proto::Profile,
 }
 
@@ -14,6 +17,8 @@ impl Builder {
     pub fn new() -> Self {
         let mut strings = DefaultStringInterner::default();
         strings.get_or_intern(""); // first string must be ""
+
+        let location_map = HashMap::new();
 
         let profile = proto::Profile {
             sample_type: vec![],
@@ -32,7 +37,11 @@ impl Builder {
             default_sample_type: 0,
         };
 
-        Self { strings, profile }
+        Self {
+            strings,
+            location_map,
+            profile,
+        }
     }
 
     pub fn push_sample_type(&mut self, typ: &str, unit: &str) {
@@ -42,25 +51,24 @@ impl Builder {
         });
     }
 
-    pub fn push_sample_values(&mut self, address: u64, values: &[i64]) {
-        self.profile.location.push(proto::Location {
-            id: address,
-            mapping_id: 0,
-            address,
-            line: vec![],
-            is_folded: false,
-        });
+    pub fn push_sample_values(&mut self, addresses: Vec<u64>, values: &[i64]) {
+        for address in addresses.iter() {
+            self.location_map
+                .entry(*address)
+                .or_insert_with(|| proto::Location {
+                    id: *address,
+                    mapping_id: 0,
+                    address: *address,
+                    line: vec![],
+                    is_folded: false,
+                });
+        }
 
-        let mut sample = proto::Sample {
-            location_id: vec![],
-            value: vec![],
+        let sample = proto::Sample {
+            location_id: addresses,
+            value: values.to_vec(),
             label: vec![],
         };
-
-        for value in values {
-            sample.location_id.push(address);
-            sample.value.push(*value);
-        }
 
         self.profile.sample.push(sample);
     }
@@ -68,6 +76,10 @@ impl Builder {
     pub fn finish(mut self) -> Vec<u8> {
         for (_, string) in self.strings.iter() {
             self.profile.string_table.push(string.to_owned());
+        }
+
+        for (_, location) in self.location_map.into_iter() {
+            self.profile.location.push(location);
         }
 
         let mut encoded_profile = Vec::new();

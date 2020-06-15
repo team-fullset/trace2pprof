@@ -1,12 +1,14 @@
-use std::collections::BTreeMap;
 use std::error::Error;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Write};
+use std::io::Write;
 
 use flate2::{write::GzEncoder, Compression};
 use structopt::StructOpt;
 
+mod assembly;
+mod counter;
 mod profile;
+mod reader;
 
 #[derive(Debug, StructOpt)]
 struct Opt {
@@ -18,25 +20,28 @@ fn main() -> Result<(), Box<dyn Error>> {
     let opts = Opt::from_args();
 
     let trace_file = File::open(opts.input)?;
-    let trace_file_reader = BufReader::new(trace_file);
+    let mut trace_file_reader = reader::TraceFileReader::new(trace_file);
 
-    let mut symbol_counts = BTreeMap::<u64, u64>::new();
+    let mut instr_counter = counter::StackInstructionCounter::new();
 
-    for line in trace_file_reader.lines() {
-        let instr_addr = u64::from_str_radix(line?.split(":").next().unwrap(), 16)?;
+    while let Some((instr_addr, instr_asm)) = trace_file_reader.read_line()? {
+        instr_counter.count(instr_addr, 1);
 
-        symbol_counts
-            .entry(instr_addr)
-            .and_modify(|count| *count += 1)
-            .or_insert(1);
+        if assembly::is_call(instr_asm) {
+            instr_counter.push(instr_addr);
+        }
+
+        if assembly::is_return(instr_asm) {
+            instr_counter.pop();
+        }
     }
 
     let mut profile_builder = profile::Builder::new();
 
     profile_builder.push_sample_type("instructions", "count");
 
-    for (addr, count) in symbol_counts.iter() {
-        profile_builder.push_sample_values(*addr, &[*count as i64]);
+    for (addrs, count) in instr_counter.iter() {
+        profile_builder.push_sample_values(addrs, &[count as i64]);
     }
 
     let encoded_profile = profile_builder.finish();

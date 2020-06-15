@@ -8,6 +8,7 @@ edition = "2018"
 bytes = "0.4.7"
 flate2 = "1.0.13"
 structopt = "0.3.4"
+sequence_trie = "0.3.6"
 string-interner = "0.7.1"
 prost = "0.5.0"
 
