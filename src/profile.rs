@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+use fnv::FnvBuildHasher;
 use prost::Message;
 use string_interner::{DefaultStringInterner, Symbol};
 
@@ -9,7 +10,7 @@ mod proto {
 
 pub struct Builder {
     strings: DefaultStringInterner,
-    location_map: HashMap<u64, proto::Location>,
+    location_map: HashMap<u64, proto::Location, FnvBuildHasher>,
     profile: proto::Profile,
 }
 
@@ -18,7 +19,7 @@ impl Builder {
         let mut strings = DefaultStringInterner::default();
         strings.get_or_intern(""); // first string must be ""
 
-        let location_map = HashMap::new();
+        let location_map = HashMap::default();
 
         let profile = proto::Profile {
             sample_type: vec![],

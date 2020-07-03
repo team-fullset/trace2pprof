@@ -1,15 +1,16 @@
+use fnv::FnvBuildHasher;
 use sequence_trie::SequenceTrie;
 
 pub struct StackInstructionCounter {
     current_stack: Vec<u64>,
-    instr_counts: SequenceTrie<u64, u64>,
+    instr_counts: SequenceTrie<u64, u64, FnvBuildHasher>,
 }
 
 impl StackInstructionCounter {
     pub fn new() -> Self {
         Self {
             current_stack: vec![],
-            instr_counts: SequenceTrie::new(),
+            instr_counts: SequenceTrie::default(),
         }
     }
 
