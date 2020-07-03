@@ -49,7 +49,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let profile_output_file = File::create("profile.pb.gz")?;
     let mut profile_output_encoder = GzEncoder::new(profile_output_file, Compression::default());
 
-    profile_output_encoder.write(&encoded_profile)?;
+    profile_output_encoder.write_all(&encoded_profile)?;
     profile_output_encoder.finish()?;
 
     Ok(())
